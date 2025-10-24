@@ -1,0 +1,31 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36" version="28.2.8">
+  <diagram name="Page-1" id="xpwUtmlZ_tVTHOJ-2wRt">
+    <mxGraphModel dx="942" dy="878" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p669E3-LHZoqyRP2m0ce-2" value="Customer&lt;div&gt;Id, int,&amp;nbsp; uniq&lt;/div&gt;&lt;div&gt;Name, string, 100, needed&lt;/div&gt;&lt;div&gt;Address, string, 255, needed&lt;/div&gt;&lt;div&gt;Email, string, 100, needed&lt;/div&gt;&lt;div&gt;Phone, string, 15&lt;/div&gt;&lt;div&gt;Discount, decimal&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;gradientColor=#ea6b66;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="200" y="80" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p669E3-LHZoqyRP2m0ce-4" value="Invoice&lt;div&gt;Id, int, needed, uniq&lt;/div&gt;&lt;div&gt;Invoice No, string, 15, needed, uinq&lt;/div&gt;&lt;div&gt;Invoice Date, DataTime, needed&lt;/div&gt;&lt;div&gt;Due Date, DateTime, needed&lt;/div&gt;&lt;div&gt;Subtotal, decimal, needed&lt;/div&gt;&lt;div&gt;Shipping, decimal, needed&lt;/div&gt;&lt;div&gt;GrandTotal, decimal, needed&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="1">
+          <mxGeometry x="200" y="240" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p669E3-LHZoqyRP2m0ce-5" value="Invoice Line&lt;div&gt;Id, int, needed, uinq&lt;/div&gt;&lt;div&gt;Line item, string, 255, needed&lt;/div&gt;&lt;div&gt;Unit price, decimal, needed&lt;/div&gt;&lt;div&gt;Quantity, decimal, needed&lt;/div&gt;&lt;div&gt;VatRate, decimal, needed&lt;/div&gt;&lt;div&gt;Total, decimal, needed&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#b1ddf0;strokeColor=#10739e;" vertex="1" parent="1">
+          <mxGeometry x="200" y="400" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p669E3-LHZoqyRP2m0ce-6" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToMany;endFill=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;gradientColor=#ea6b66;" edge="1" parent="1" source="p669E3-LHZoqyRP2m0ce-4" target="p669E3-LHZoqyRP2m0ce-2">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="410" y="270" as="sourcePoint" />
+            <mxPoint x="510" y="170" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="p669E3-LHZoqyRP2m0ce-7" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;fillColor=#b1ddf0;strokeColor=#10739e;" edge="1" parent="1" source="p669E3-LHZoqyRP2m0ce-5" target="p669E3-LHZoqyRP2m0ce-4">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="490" y="585" as="sourcePoint" />
+            <mxPoint x="490" y="305" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
