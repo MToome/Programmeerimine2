@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Data
 {
-    internal class InvoiceLine
+    public class InvoiceLine
     {
     }
 }

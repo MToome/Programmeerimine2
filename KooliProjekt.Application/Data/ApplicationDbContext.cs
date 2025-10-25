@@ -13,7 +13,8 @@ namespace KooliProjekt.Application.Data
         {
         }
 
-        public DbSet<ToDoList> ToDoLists { get; set; }
-        public DbSet<ToDoItem> ToDoItems { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceLine> InvoiceLines { get; set; }
+        public DbSet<Customer> Customers { get; set; }
     }
 }
