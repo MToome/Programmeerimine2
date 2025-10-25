@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace KooliProjekt.Application.Data
 {
@@ -14,7 +9,7 @@ namespace KooliProjekt.Application.Data
         }
 
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceLine> InvoiceLines { get; set; }
+        public DbSet<InvoiceLine> Items { get; set; }
         public DbSet<Customer> Customers { get; set; }
     }
 }
