@@ -7,25 +7,26 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KooliProjekt.Application.Features.Customers
+namespace KooliProjekt.Application.Features.Invoices
 {
-    public class ListCustomerQueryHandler : IRequestHandler<ListCustomerQuery, OperationResult<IList<Customer>>>
+    public class ListInvoiceQueryHandler : IRequestHandler<ListInvoiceQuery, OperationResult<IList<Invoice>>>
     {
         private readonly ApplicationDbContext _dbContext;
-        public ListCustomerQueryHandler(ApplicationDbContext dbContext)
+        public ListInvoiceQueryHandler(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<OperationResult<IList<Customer>>> Handle(ListCustomerQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<IList<Invoice>>> Handle(ListInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var result = new OperationResult<IList<Customer>>();
+            var result = new OperationResult<IList<Invoice>>();
             result.Value = await _dbContext
-                .Customers
-                .OrderBy(list => list.Name)
+                .Invoices
+                .OrderBy(list => list.DueDate)
                 .ToListAsync();
 
             return result;
         }
     }
+   
 }

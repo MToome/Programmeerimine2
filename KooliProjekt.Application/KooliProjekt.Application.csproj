@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Invoices\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

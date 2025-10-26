@@ -7,7 +7,7 @@ namespace KooliProjekt.Application.Data
     {
         public int Id { get; set; }
         public DateTime Date { get; set; } = DateTime.Now;
-        public DateTime ToDate { get; set; } = DateTime.Now.AddDays(10);
+        public DateTime DueDate { get; set; } = DateTime.Now.AddDays(10);
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
         public List<Item> Items { get; set; }
