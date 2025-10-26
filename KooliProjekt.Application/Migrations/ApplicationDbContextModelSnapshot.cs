@@ -77,7 +77,7 @@ namespace KooliProjekt.Application.Migrations
                     b.ToTable("Invoices");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Application.Data.InvoiceLine", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,6 +90,9 @@ namespace KooliProjekt.Application.Migrations
 
                     b.Property<int>("InvoiceId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -115,7 +118,7 @@ namespace KooliProjekt.Application.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("KooliProjekt.Application.Data.InvoiceLine", b =>
+            modelBuilder.Entity("KooliProjekt.Application.Data.Item", b =>
                 {
                     b.HasOne("KooliProjekt.Application.Data.Invoice", "Invoice")
                         .WithMany("Items")

@@ -10,6 +10,6 @@ namespace KooliProjekt.Application.Data
         public DateTime ToDate { get; set; } = DateTime.Now.AddDays(10);
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }
-        public List<Items> Items { get; set; }
+        public List<Item> Items { get; set; }
     }
 }
