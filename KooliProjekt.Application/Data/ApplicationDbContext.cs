@@ -9,7 +9,7 @@ namespace KooliProjekt.Application.Data
         }
 
         public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceLine> Items { get; set; }
+        public DbSet<Items> Items { get; set; }
         public DbSet<Customer> Customers { get; set; }
     }
 }

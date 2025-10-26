@@ -1,6 +1,6 @@
 ﻿namespace KooliProjekt.Application.Data
 {
-    public class InvoiceLine
+    public class Items
     {
         public int Id { get; set; }
         public int InvoiceId { get; set; }
