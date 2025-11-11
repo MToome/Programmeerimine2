@@ -1,5 +1,6 @@
 ﻿using KooliProjekt.Application.Data;
 using KooliProjekt.Application.Features.Customers;
+using KooliProjekt.Application.Infrastructure.Paging;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Items
 {
-    public class ListItemQueryHandler : IRequestHandler<ListItemQuery, OperationResult<IList<Item>>>
+    public class ListItemQueryHandler : IRequestHandler<ListItemQuery, OperationResult<PagedResult<Item>>>
     {
         private readonly ApplicationDbContext _dbContext;
         public ListItemQueryHandler(ApplicationDbContext dbContext)
@@ -18,13 +19,13 @@ namespace KooliProjekt.Application.Features.Items
             _dbContext = dbContext;
         }
 
-        public async Task<OperationResult<IList<Item>>> Handle(ListItemQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<PagedResult<Item>>> Handle(ListItemQuery request, CancellationToken cancellationToken)
         {
-            var result = new OperationResult<IList<Item>>();
+            var result = new OperationResult<PagedResult<Item>>();
             result.Value = await _dbContext
                 .Items
                 .OrderBy(list => list.Name)
-                .ToListAsync();
+                .GetPagedAsync(request.Page, request.PageSize);
 
             return result;
         }

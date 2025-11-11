@@ -1,4 +1,6 @@
-﻿using KooliProjekt.Application.Features.Items;
+﻿
+using KooliProjekt.Application.Features.Invoices;
+using KooliProjekt.Application.Features.Items;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,9 +17,8 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List([FromQuery] ListItemQuery query)
         {
-            var query = new ListItemQuery();
             var result = await _mediator.Send(query);
 
             return Result(result);
