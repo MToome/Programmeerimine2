@@ -50,8 +50,22 @@ namespace KooliProjekt.WebAPI
 
             app.UseAuthorization();
 
-
             app.MapControllers();
+
+            // 15.11.2023 - Loo andmebaasi migratsioonid
+            // ja genereeri andmed
+            using (var scope = app.Services.CreateScope())
+            using (var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>())
+            {
+                dbContext.Database.Migrate();
+
+                // Preprotsessori direktiiv, mis tagab, et andmete
+                // genereerimine toimub ainult arendusrežiimis
+#if DEBUG
+                var generator = new SeedData(dbContext);
+                generator.Generate();
+#endif
+            }
 
             app.Run();
         }

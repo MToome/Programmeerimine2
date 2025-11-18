@@ -40,10 +40,10 @@ namespace KooliProjekt.Application.Data
             {
                 var customer = new Customer
                 {
-                    Name = $"FirstName{i+1} " + "LastName{i}",
-                    Address = $"Street {i+1} Address",
-                    City = $"City{i+1}",
-                    Email = $"Email{i + 1}",
+                    Name = $"FirstName{i} " + "LastName{i}",
+                    Address = $"Street {i} Address",
+                    City = $"City{i}",
+                    Email = $"Email{i}",
                     Phone = $"555-010{i}",
                     Discount = i * 0.01m
                 };
@@ -58,7 +58,7 @@ namespace KooliProjekt.Application.Data
             {
                 var invoice = new Invoice
                 {
-                    CustomerId = i+1,
+                    CustomerId = i,
                     Date = DateTime.Now,
                     DueDate = DateTime.Now.AddDays(30 - i),
                 };
@@ -72,11 +72,11 @@ namespace KooliProjekt.Application.Data
             {
                 var item = new Item
                 {
-                    InvoiceId = i+1,
-                    Name = $"ItemName{i+1}",
-                    Description = $"Description for Item {i + 1}",
-                    Quantity = i+1 * 2,
-                    UnitPrice = i+1 * 5.00m
+                    InvoiceId = i,
+                    Name = $"ItemName{i}",
+                    Description = $"Description for Item {i}",
+                    Quantity = i * 2,
+                    UnitPrice = i * 5.00m
                 };
                 _dbContext.Items.Add(item);
             }
