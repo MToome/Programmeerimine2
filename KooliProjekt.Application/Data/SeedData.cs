@@ -9,7 +9,8 @@ namespace KooliProjekt.Application.Data
     public class SeedData
     {
         private readonly ApplicationDbContext _dbContext;
-
+        private readonly IList<Invoice> _invoices = new List<Invoice>();
+        Random Random = new Random();
         // 15.11.2023 - Lisatud SeedData klass andmebaasi algandmete genereerimiseks
 
         public SeedData(ApplicationDbContext context)
@@ -36,16 +37,16 @@ namespace KooliProjekt.Application.Data
 
         private void GenerateCustomers()
         {
-            for (var i = 1; i <= 10; i++)
+            for (var l = 1; l <= 10; l++)
             {
                 var customer = new Customer
                 {
-                    Name = $"FirstName{i} " + "LastName{i}",
-                    Address = $"Street {i} Address",
-                    City = $"City{i}",
-                    Email = $"Email{i}",
-                    Phone = $"555-010{i}",
-                    Discount = i * 0.01m
+                    Name = $"FirstName{l} " + $"LastName{l}",
+                    Address = $"Street {l} Address",
+                    City = $"City{l}",
+                    Email = $"Email{l}",
+                    Phone = $"555-{Random.Next(100, 999)}",
+                    Discount = Random.Next(0, 5) * 0.10m
                 };
 
                 _dbContext.Customers.Add(customer);
@@ -61,26 +62,41 @@ namespace KooliProjekt.Application.Data
                     CustomerId = i,
                     Date = DateTime.Now,
                     DueDate = DateTime.Now.AddDays(30 - i),
+                    Items = new List<Item>() // loob tühja nimekirja, väldib null-viidet
                 };
-                _dbContext.Invoices.Add(invoice);
+                _invoices.Add(invoice);
             }
+            _dbContext.Invoices.AddRange(_invoices);
         }
 
         private void GenerateItems()
         {
-            for (var i = 1; i < 5; i++)
+            
+            foreach (var invoice in _invoices)
             {
-                var item = new Item
+                
+                for (var j = 1; j <= 5; j++)
                 {
-                    InvoiceId = i,
-                    Name = $"ItemName{i}",
-                    Description = $"Description for Item {i}",
-                    Quantity = i * 2,
-                    UnitPrice = i * 5.00m
-                };
-                _dbContext.Items.Add(item);
-            }
-        }
 
+
+                    var item = new Item
+                    {
+                        InvoiceId = invoice.Id,
+                        Name = $"ItemName{j}",
+                        Description = $"Description for Item {j}",
+                        Quantity = Random.Next(1, 10),
+                        UnitPrice = Random.Next(1, 111) * 0.1m
+                    };
+                    
+                    invoice.Items.Add(item);
+
+                }
+               
+            }
+
+        }
     }
 }
+   
+
+
