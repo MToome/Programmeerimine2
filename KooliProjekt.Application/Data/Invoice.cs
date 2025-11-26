@@ -24,5 +24,11 @@ namespace KooliProjekt.Application.Data
 
         [Required]
         public List<Item> Items { get; set; }
+
+        // null-viidet(NullReference) vältimiseks konstruktori kaudu
+        public Invoice()
+        {
+            Items = new List<Item>();
+        }
     }
 }

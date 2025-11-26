@@ -62,7 +62,6 @@ namespace KooliProjekt.Application.Data
                     CustomerId = i,
                     Date = DateTime.Now,
                     DueDate = DateTime.Now.AddDays(30 - i),
-                    Items = new List<Item>() // loob tühja nimekirja, väldib null-viidet
                 };
                 _invoices.Add(invoice);
             }

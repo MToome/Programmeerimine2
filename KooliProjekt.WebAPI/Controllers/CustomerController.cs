@@ -21,5 +21,16 @@ namespace KooliProjekt.WebAPI.Controllers
 
             return Result(result);
         }
+
+
+        // API Pöördumispunkt Customeri kustutamiseks0
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete(DeleteCustomerCommand command)
+        {
+            var response = await _mediator.Send(command);
+
+            return Result(response);
+        }
     }
 }
