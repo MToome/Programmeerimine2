@@ -23,7 +23,7 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
 
-        // API Pöördumispunkt Customeri kustutamiseks0
+        // API Pöördumispunkt Customeri kustutamiseks
         [HttpDelete]
         [Route("Delete")]
         public async Task<IActionResult> Delete(DeleteCustomerCommand command)

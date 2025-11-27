@@ -1,6 +1,7 @@
 ﻿using KooliProjekt.Application.Features.Invoices;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace KooliProjekt.WebAPI.Controllers
@@ -21,5 +22,16 @@ namespace KooliProjekt.WebAPI.Controllers
 
             return Result(result);
         }
+
+        // API Pöördumispunkt Invoice kustutamiseks
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete(DeleteInvoiceCommand command)
+        {
+            var response = await _mediator.Send(command);
+
+            return Result(response);
+        }
+
     }
 }
