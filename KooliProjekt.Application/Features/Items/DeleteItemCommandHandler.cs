@@ -6,34 +6,24 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KooliProjekt.Application.Features.Invoices
+namespace KooliProjekt.Application.Features.Items
 {
-    public class DeleteInvoiceCommandHandler : IRequestHandler<DeleteInvoiceCommand, OperationResult>
+    public class DeleteItemCommandHandler : IRequestHandler<DeleteItemCommand, OperationResult>
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public DeleteInvoiceCommandHandler(ApplicationDbContext dbContext)
+        public DeleteItemCommandHandler(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<OperationResult> Handle(DeleteInvoiceCommand request, CancellationToken cancellationToken)
+        public async Task<OperationResult> Handle(DeleteItemCommand request, CancellationToken cancellationToken)
         {
             var result = new OperationResult();
 
             // Kustutamine üle relatsioonide (CASCADE DELETE)
-            //await _dbContext
-            //    .Invoices
-            //    .Where(c => c.Id == request.Id)
-            //    .ExecuteDeleteAsync();
-
             await _dbContext
                 .Items
-                .Where(c => c.InvoiceId == request.Id)
-                .ExecuteDeleteAsync();
-
-            await _dbContext
-                .Invoices
                 .Where(c => c.Id == request.Id)
                 .ExecuteDeleteAsync();
 

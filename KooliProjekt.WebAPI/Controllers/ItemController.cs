@@ -1,6 +1,4 @@
-﻿
-using KooliProjekt.Application.Features.Invoices;
-using KooliProjekt.Application.Features.Items;
+﻿using KooliProjekt.Application.Features.Items;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -22,6 +20,15 @@ namespace KooliProjekt.WebAPI.Controllers
             var result = await _mediator.Send(query);
 
             return Result(result);
+        }
+
+        // API Pöördumispunkt Item kustutamiseks
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IActionResult> Delete(DeleteItemCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Result(response);
         }
     }
 }
