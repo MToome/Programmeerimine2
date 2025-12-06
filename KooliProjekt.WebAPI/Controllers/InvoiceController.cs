@@ -16,11 +16,22 @@ namespace KooliProjekt.WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("List")]
         public async Task<IActionResult> List([FromQuery] ListInvoiceQuery query)
         {
-            var result = await _mediator.Send(query);
+            var response = await _mediator.Send(query);
 
-            return Result(result);
+            return Result(response);
+        }
+
+        [HttpGet]
+        [Route("Get")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var query = new GetInvoiceQuery { Id = id };
+            var response = await _mediator.Send(query);
+
+            return Result(response);
         }
 
         // API Pöördumispunkt Invoice kustutamiseks
