@@ -31,7 +31,7 @@ namespace KooliProjekt.Application.Features.Items
             }
 
             item.InvoiceId = request.InvoiceId;
-            item.Invoice = request.Invoice;
+            
             item.Name = request.Name;
             item.Description = request.Description;
             item.Quantity = request.Quantity;
