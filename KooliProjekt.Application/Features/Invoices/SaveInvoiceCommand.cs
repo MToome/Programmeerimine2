@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KooliProjekt.Application.Features.Customers
+namespace KooliProjekt.Application.Features.Invoices
 {
     public class SaveInvoiceCommand : IRequest<OperationResult>, ITransactional
     {

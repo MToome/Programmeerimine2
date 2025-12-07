@@ -1,6 +1,7 @@
 ﻿using KooliProjekt.Application.Data;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,39 +9,43 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace KooliProjekt.Application.Features.Customers
+namespace KooliProjekt.Application.Features.Invoices
 {
-    public class SaveCustomerCommandHandler : IRequestHandler<SaveCustomerCommand, OperationResult>
+    public class SaveInvoiceCommandHandler : IRequestHandler<SaveInvoiceCommand, OperationResult>
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public SaveCustomerCommandHandler(ApplicationDbContext dbContext)
+        public SaveInvoiceCommandHandler(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<OperationResult> Handle(SaveCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<OperationResult> Handle(SaveInvoiceCommand request, CancellationToken cancellationToken)
         {
             var result = new OperationResult();
 
-            var customer = new Customer();
+            var invoice = new Invoice();
 
             if (request.Id == 0)
             {
-                await _dbContext.Customers.AddAsync(customer);
+                await _dbContext.Invoices.AddAsync(invoice);
             }
             else
             {
-                customer = await _dbContext.Customers.FindAsync(request.Id);
+                invoice = await _dbContext.Invoices.FindAsync(request.Id);
             }
 
-            customer.Name = request.Name;
-            customer.Address = request.Address;
-            customer.City = request.City;
-            customer.Email = request.Email;
-            customer.Phone = request.Phone;
-            customer.Discount = request.Discount;
-        
+            invoice.Date = request.Date;
+            invoice.DueDate = request.DueDate;
+            invoice.CustomerId = request.CustomerId;
+            invoice.Customer = await _dbContext.Customers.FindAsync(request.CustomerId);
+            invoice.Items = await _dbContext.Items
+                .Where(i => request.Items.Contains(i.Id))
+                .ToListAsync(cancellationToken);
+
+
+
+
             await _dbContext.SaveChangesAsync(cancellationToken);
             return result;
         }
