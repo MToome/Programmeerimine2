@@ -2,10 +2,8 @@
 
 namespace KooliProjekt.Application.Data
 {
-    public class Item
+    public class Item : Entity // pärineb baasklassist Entity
     {
-        public int Id { get; set; }
-
         [Required]
         [MaxLength(50)]
         [MinLength(1)]

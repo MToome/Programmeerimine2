@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Data.Repositories
 {
-    public class CustomerRepository
+    public class CustomerRepository : BaseRepository<Customer>
     {
-        private readonly ApplicationDbContext _dbContext;
-
-        public CustomerRepository(ApplicationDbContext dbContext)
+        
+        public CustomerRepository(ApplicationDbContext dbContext) : base(dbContext) // anname baasklassile edasi DbContexti
         {
-            _dbContext = dbContext;
+            
         }
     }
 }

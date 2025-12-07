@@ -4,11 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KooliProjekt.Application.Data
 {
-    public class Invoice
+    public class Invoice : Entity // pärineb baasklassist Entity
     {
-        public int Id { get; set; }
-
-        
         public DateTime Date { get; set; } = DateTime.Now;
         public DateTime DueDate { get; set; } = DateTime.Now.AddDays(10);
 
