@@ -24,6 +24,7 @@ namespace KooliProjekt.WebAPI.Controllers
             return Result(response);
         }
 
+        // API Pöördumispunkt ühe Invoice toomiseks ID alusel
         [HttpGet]
         [Route("Get")]
         public async Task<IActionResult> Get(int id)
@@ -32,6 +33,17 @@ namespace KooliProjekt.WebAPI.Controllers
             var response = await _mediator.Send(query);
 
             return Result(response);
+        }
+
+        // API Pöördumispunkt Invoice salvestamiseks
+        [HttpPost]
+        [Route("Save")]
+
+        public async Task<IActionResult> Save([FromBody] SaveInvoiceCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Result(response);
+
         }
 
         // API Pöördumispunkt Invoice kustutamiseks
@@ -44,5 +56,6 @@ namespace KooliProjekt.WebAPI.Controllers
             return Result(response);
         }
 
+        
     }
 }
