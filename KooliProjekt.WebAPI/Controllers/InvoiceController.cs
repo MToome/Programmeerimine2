@@ -15,6 +15,7 @@ namespace KooliProjekt.WebAPI.Controllers
             _mediator = mediator;
         }
 
+
         [HttpGet]
         [Route("List")]
         public async Task<IActionResult> List([FromQuery] ListInvoiceQuery query)
