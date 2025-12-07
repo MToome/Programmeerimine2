@@ -25,9 +25,9 @@ namespace KooliProjekt.Application.Features.Customers
 
             var customer = new Customer();
 
-            if (request.Id == null)
+            if (request.Id == 0)
             {
-                await _dbContext.Customers.AddAsync(customer, cancellationToken);
+                await _dbContext.Customers.AddAsync(customer);
             }
             else
             {

@@ -33,6 +33,14 @@ namespace KooliProjekt.WebAPI.Controllers
             return Result(response);
         }
 
+        // API Pöördumispunkt Customeri salvestamiseks
+        [HttpPost]
+        [Route("Save")]
+        public async Task<IActionResult> Save(SaveCustomerCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Result(response);
+        }
 
 
 
