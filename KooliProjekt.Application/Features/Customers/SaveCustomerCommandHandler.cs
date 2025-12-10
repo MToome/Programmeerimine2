@@ -1,10 +1,7 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,11 +9,11 @@ namespace KooliProjekt.Application.Features.Customers
 {
     public class SaveCustomerCommandHandler : IRequestHandler<SaveCustomerCommand, OperationResult>
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly ICustomerRepository _customerRepository;
 
-        public SaveCustomerCommandHandler(ApplicationDbContext dbContext)
+        public SaveCustomerCommandHandler(ICustomerRepository customerRepository)
         {
-            _dbContext = dbContext;
+            _customerRepository = customerRepository;
         }
 
         public async Task<OperationResult> Handle(SaveCustomerCommand request, CancellationToken cancellationToken)
@@ -25,15 +22,11 @@ namespace KooliProjekt.Application.Features.Customers
 
             var customer = new Customer();
 
-            if (request.Id == 0)
+            if (request.Id != 0)
             {
-                await _dbContext.Customers.AddAsync(customer);
+                customer = await _customerRepository.GetByIdAsync(request.Id);
             }
-            else
-            {
-                customer = await _dbContext.Customers.FindAsync(request.Id);
-            }
-
+           
             customer.Name = request.Name;
             customer.Address = request.Address;
             customer.City = request.City;
@@ -41,7 +34,7 @@ namespace KooliProjekt.Application.Features.Customers
             customer.Phone = request.Phone;
             customer.Discount = request.Discount;
         
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _customerRepository.Save(customer);
             return result;
         }
     }
