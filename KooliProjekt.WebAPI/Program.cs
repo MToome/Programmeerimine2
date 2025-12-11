@@ -26,6 +26,7 @@ namespace KooliProjekt.WebAPI
             });
 
             builder.Services.AddControllers();
+                
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -41,6 +42,8 @@ namespace KooliProjekt.WebAPI
             });
 
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            builder.Services.AddScoped<IItemRepository, ItemRepository>();
 
             var app = builder.Build();
 

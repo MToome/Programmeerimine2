@@ -1,4 +1,5 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Data.Repositories;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -10,37 +11,27 @@ namespace KooliProjekt.Application.Features.Invoices
 {
     public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, OperationResult<object>>
     {
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IInvoiceRepository _invoiceRepository;
 
-        public GetInvoiceQueryHandler(ApplicationDbContext dbContext)
+        public GetInvoiceQueryHandler(IInvoiceRepository invoiceRepository)
         {
-            _dbContext = dbContext;
+            _invoiceRepository = invoiceRepository;
         }
 
         public async Task<OperationResult<object>> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
             var result = new OperationResult<object>();
+            var invoice = await _invoiceRepository.GetByIdAsync(request.Id);
 
-            result.Value = await _dbContext
-                .Invoices
-                .Where(Invoices => Invoices.Id == request.Id)
-                .Select(invoice => new
-                {
-                    invoice.Id,
-                    invoice.Date,
-                    invoice.DueDate,
-                    invoice.CustomerId,
-                    invoice.Items,
-                    Customer = new
-                    {
-                        invoice.Customer.Id,
-                        invoice.Customer.Name,
-                        invoice.Customer.Email
-                    }
-                }
-                )
-                .FirstOrDefaultAsync(cancellationToken);
-
+            result.Value = new
+            {
+                invoice.Id,
+                invoice.Date,
+                invoice.DueDate,
+                invoice.CustomerId,
+                invoice.Items,
+                
+            };
             return result;
         }
     }

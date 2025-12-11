@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace KooliProjekt.Application.Data
 {
@@ -9,6 +10,7 @@ namespace KooliProjekt.Application.Data
         [MinLength(1)]
         public int InvoiceId { get; set; }
 
+        [JsonIgnore]
         [Required]
         public Invoice Invoice { get; set; }
 

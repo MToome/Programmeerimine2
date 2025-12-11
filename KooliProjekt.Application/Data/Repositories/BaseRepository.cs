@@ -9,39 +9,42 @@ namespace KooliProjekt.Application.Data.Repositories
 {
     public abstract class BaseRepository<T> where T : Entity
     {
-        protected readonly ApplicationDbContext DbContext;
+        protected ApplicationDbContext DbContext {get; private set; }
 
         public BaseRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
         }
 
-        public async Task<T> GetByIdAsync(int Id)
+        // CRUD
+        public virtual async Task<T> GetByIdAsync(int Id)
         {
             return await DbContext.Set<T>().FindAsync(Id);
         }
 
-        public async Task Save(T entity)
+        public async Task SaveAsync(T list)
         {
-            if (entity.Id == 0)
+            if (list.Id == 0)
             {
-                DbContext.Set<T>().Add(entity);
+                DbContext.Set<T>().Add(list);
             }
             else
             {
-                DbContext.Set<T>().Update(entity);
+                DbContext.Set<T>().Update(list);
             }
             await DbContext.SaveChangesAsync();
         }
 
-        public async Task Delete(int Id)
+        public async Task DeleteAsync(T entity)
         {
-            var entity = await GetByIdAsync(Id);
             if (entity != null)
             {
-                DbContext.Set<T>().Remove(entity);
-                await DbContext.SaveChangesAsync();
+                throw new ArgumentNullException(nameof(entity));
             }
+            
+            DbContext.Set<T>().Remove(entity);
+            await DbContext.SaveChangesAsync();
+
         }
     }
     

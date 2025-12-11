@@ -34,7 +34,7 @@ namespace KooliProjekt.Application.Features.Customers
             customer.Phone = request.Phone;
             customer.Discount = request.Discount;
         
-            await _customerRepository.Save(customer);
+            await _customerRepository.SaveAsync(customer);
             return result;
         }
     }
