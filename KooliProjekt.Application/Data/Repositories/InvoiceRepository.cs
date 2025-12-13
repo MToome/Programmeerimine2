@@ -12,5 +12,15 @@ namespace KooliProjekt.Application.Data.Repositories
 
 
         }
+
+        public override async Task<Invoice> GetByIdAsync(int id)
+        {
+            return await DbContext
+                .Invoices
+                .Include(customer => customer.Items)
+                .Where(customer => customer.Id == id)
+                .FirstOrDefaultAsync();
+
+        }
     }
 }

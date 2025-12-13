@@ -1,6 +1,7 @@
 ﻿using KooliProjekt.Application.Data.Repositories;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -28,7 +29,7 @@ namespace KooliProjekt.Application.Features.Customers
                 City = customer.City,
                 Email = customer.Email,
                 Phone = customer.Phone,
-                Discount = customer.Discount
+                Discount = customer.Discount,
             };
 
             return result;

@@ -29,8 +29,14 @@ namespace KooliProjekt.Application.Features.Invoices
                 invoice.Date,
                 invoice.DueDate,
                 invoice.CustomerId,
-                invoice.Items,
-                
+                Items = invoice.Items.Select(item => new
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                    UnitPrice = item.UnitPrice
+                })
+
             };
             return result;
         }
