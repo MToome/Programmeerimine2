@@ -1,9 +1,12 @@
-﻿using KooliProjekt.Application.Features.Customers;
+﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.Features.Customers;
 using Xunit;
-using KooliProjekt.Application.UnitTests;
-using KooliProjekt.Application.Data;
+using Microsoft.EntityFrameworkCore;
+{
+    
+}
 
-namespace KooliProjekt.UnitTests.Features
+namespace KooliProjekt.Application.UnitTests.Features
 {
     public class CustomersTest : TestBase
     {
@@ -107,6 +110,56 @@ namespace KooliProjekt.UnitTests.Features
             Assert.NotNull(result);
             Assert.False(result.HasErrors);
             Assert.Null(result.Value);
+        }
+
+        [Theory]
+        [InlineData("", 0, "" )]
+        [InlineData(null, -1, "invalidemail")]
+        [InlineData("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890dsdf", 0, null)]
+        public async Task SaveValidator_Should_Fail_when_info_is_invalid(string name, int id, string email)
+        {
+            // Arrange
+            var command = new SaveCustomerCommand
+            {
+                Id = id,
+                Name = name,
+                Email = email,
+                Address = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890dsdf1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890dsdf",
+                Phone = "123456789012345678901"
+            };
+            var validator = new SaveCustomerCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+
+            var error = result.Errors.First();
+            Assert.Equal(nameof(SaveCustomerCommand.Name), error.PropertyName);
+        }
+
+        [Fact]
+        public async Task SaveValidator_Should_Succeed_when_info_is_valid()
+        {
+            // Arrange
+            var command = new SaveCustomerCommand
+            {
+                Id = 1,
+                Name = "name",
+                Email = "email@test.test",
+                Address = "1234567890",
+                Phone = "1234567890"
+            };
+            var validator = new SaveCustomerCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
         }
     }
 }

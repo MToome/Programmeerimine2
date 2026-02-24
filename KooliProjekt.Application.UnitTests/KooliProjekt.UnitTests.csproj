@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KooliProjekt.Application\KooliProjekt.Application.csproj" />
-    <ProjectReference Include="..\KooliProjekt.WebAPI\KooliProjekt.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>

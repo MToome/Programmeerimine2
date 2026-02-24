@@ -139,5 +139,55 @@ namespace KooliProjekt.UnitTests.Features
             Assert.False(result.HasErrors);
             Assert.Null(result.Value);
         }
+
+        [Theory]
+        [InlineData("", 0, 0)]
+        [InlineData(null, 0, 0)]
+        [InlineData("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890dsdf", -1,0)]
+        public async Task SaveValidator_Should_Fail_when_info_is_invalid(string customer, int id, int customerid )
+        {
+            // Arrange
+            var command = new SaveInvoiceCommand
+            {
+                Customer = customer,
+                Id = id,
+                Date = new DateTime(2025, 12, 12),
+                DueDate = new DateTime(2026, 1, 2),
+                CustomerId = customerid
+            };
+            var validator = new SaveInvoiceCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+            
+            var error = result.Errors.First();
+            Assert.Equal(nameof(SaveInvoiceCommand.Customer), error.PropertyName);
+        }
+
+        [Fact]
+        public async Task SaveValidator_Should_Succeed_when_info_is_valid()
+        {
+            // Arrange
+            var command = new SaveInvoiceCommand
+            {
+                Customer = "customer",
+                Id = 1,
+                Date = new DateTime(2026, 2, 24),
+                DueDate = new DateTime(2026, 3, 24),
+                CustomerId = 2
+            };
+            var validator = new SaveInvoiceCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+        }
     }
 }

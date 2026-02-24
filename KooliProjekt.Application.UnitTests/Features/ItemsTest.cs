@@ -123,5 +123,50 @@ namespace KooliProjekt.UnitTests.Features
             Assert.False(result.HasErrors);
             Assert.Null(result.Value);
         }
+
+        [Theory]
+        [InlineData("",0 ,0, 0)]
+        [InlineData(null, -1, -1, -1)]
+        [InlineData("1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890dsdf", 0, 0, 0)]
+        public async Task SaveValidator_Should_Fail_when_info_is_invalid(string name,int id, int quantity, int unitprice)
+        {
+            // Arrange
+            var command = new SaveItemCommand { 
+                Name = name, 
+                Id = id, 
+                // Description over 500 characters
+                Description = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890", 
+                InvoiceId = 2, 
+                Quantity = quantity, 
+                UnitPrice = unitprice
+            };
+
+            var validator = new SaveItemCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.False(result.IsValid);
+
+            var error = result.Errors.First();
+            Assert.Equal(nameof(SaveItemCommand.Name), error.PropertyName);
+        }
+
+        [Fact]
+        public async Task SaveValidator_Should_Succeed_when_info_is_valid()
+        {
+            // Arrange
+            var command = new SaveItemCommand { Name = "name",Id = 1, Description = "dfs", InvoiceId = 2, Quantity = 4, UnitPrice =10 };
+            var validator = new SaveItemCommandValidator(DbContext);
+
+            // Act
+            var result = await validator.ValidateAsync(command);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(result.IsValid);
+        }
     }
 }
