@@ -25,9 +25,13 @@ namespace KooliProjekt.Application.Features.Customers
 
             var customer = new Customer();
 
-            if (request.Id == 0)
+            if (request == null) {
+                return result;
+            }
+
+            if (request.Id <= 0)
             {
-                await _dbContext.Customers.AddAsync(customer);
+                return result;
             }
             else
             {

@@ -16,6 +16,42 @@ namespace KooliProjekt.Application.UnitTests.Features
             Assert.Throws<ArgumentNullException>(() => new GetCustomerQueryHandler(null));
         }
 
+        [Fact]
+        public async Task Get_should_throw_when_request_is_null()
+        {
+            // Arrange
+            var request = (GetCustomerQuery)null;
+            var handler = new GetCustomerQueryHandler(DbContext);
+
+            // Act && Assert
+            var ex = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await handler.Handle(request, CancellationToken.None);
+            });
+            Assert.Equal("request", ex.ParamName);
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public async Task Get_should_return_null_when_request_id_is_null_or_negative(int id)
+        {
+            // Arrange
+            var query = new GetCustomerQuery { Id = id };
+            var handler = new GetCustomerQueryHandler(GetFaultyDbContext());
+
+            var customer = new Customer { Name = "Test", Address = "dsaf", Email = "dsf@test.test", Phone = "32532" };
+            await DbContext.Customers.AddAsync(customer);
+            await DbContext.SaveChangesAsync();
+
+            // Act
+            var result = await handler.Handle(query, CancellationToken.None);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.False(result.HasErrors);
+            Assert.Null(result.Value);
+        }
 
         [Fact]
         public async Task Get_Should_Return_Existing_Customer()
