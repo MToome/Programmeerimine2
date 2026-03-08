@@ -17,14 +17,29 @@ namespace KooliProjekt.Application.Features.Invoices
 
         public SaveInvoiceCommandHandler(ApplicationDbContext dbContext)
         {
+            if (dbContext == null)
+            { 
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
             _dbContext = dbContext;
         }
 
         public async Task<OperationResult> Handle(SaveInvoiceCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var result = new OperationResult();
 
             var invoice = new Invoice();
+
+            if (request.Id < 0)
+            {
+                return result.AddPropertyError(nameof(request.Id), "Id cannot be negative.");
+            }
 
             if (request.Id == 0)
             {
@@ -33,6 +48,10 @@ namespace KooliProjekt.Application.Features.Invoices
             else
             {
                 invoice = await _dbContext.Invoices.FindAsync(request.Id);
+                if (invoice == null)
+                {
+                    return result.AddPropertyError(nameof(request.Id), "Invoice not found.");
+                }
             }
 
             invoice.Date = request.Date;

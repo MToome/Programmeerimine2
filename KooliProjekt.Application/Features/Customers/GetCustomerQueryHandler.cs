@@ -29,7 +29,7 @@ namespace KooliProjekt.Application.Features.Customers
 
             if (request == null)
             {
-                return result;
+                throw new System.ArgumentNullException(nameof(request));
             }
 
             if (request.Id <= 0)

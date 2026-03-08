@@ -28,7 +28,7 @@ namespace KooliProjekt.Application.Features.Invoices
 
             if(request == null)
             {
-                return result;
+                throw new System.ArgumentNullException(nameof(request));
             }
 
             if(request.Id <= 0)

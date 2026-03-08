@@ -29,7 +29,7 @@ namespace KooliProjekt.Application.Features.Items
 
             if(request == null)
             {
-                return result;
+                throw new ArgumentNullException(nameof(request));
             }
 
             if (request.Id <= 0)
