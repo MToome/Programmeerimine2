@@ -1,4 +1,5 @@
 ﻿using KooliProjekt.Application.Data;
+using KooliProjekt.Application.DTO;
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,37 +9,61 @@ using System.Threading.Tasks;
 
 namespace KooliProjekt.Application.Features.Invoices
 {
-    public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, OperationResult<object>>
+    public class GetInvoiceQueryHandler : IRequestHandler<GetInvoiceQuery, OperationResult<InvoiceDetailsDto>>
     {
         private readonly ApplicationDbContext _dbContext;
 
         public GetInvoiceQueryHandler(ApplicationDbContext dbContext)
         {
+            if (dbContext == null)
+            {
+                throw new System.ArgumentNullException(nameof(dbContext));
+            }
             _dbContext = dbContext;
         }
 
-        public async Task<OperationResult<object>> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
+        public async Task<OperationResult<InvoiceDetailsDto>> Handle(GetInvoiceQuery request, CancellationToken cancellationToken)
         {
-            var result = new OperationResult<object>();
+            var result = new OperationResult<InvoiceDetailsDto>();
+
+            if(request == null)
+            {
+                throw new System.ArgumentNullException(nameof(request));
+            }
+
+            if(request.Id <= 0)
+            {
+                return result;
+            }
 
             result.Value = await _dbContext
                 .Invoices
-                .Where(Invoices => Invoices.Id == request.Id)
-                .Select(invoice => new
+                .Where(invoice => invoice.Id == request.Id)
+                .Select(invoice => new InvoiceDetailsDto
                 {
-                    invoice.Id,
-                    invoice.Date,
-                    invoice.DueDate,
-                    invoice.CustomerId,
-                    invoice.Items,
-                    Customer = new
+                    Id = invoice.Id,
+                    Date = invoice.Date,
+                    DueDate = invoice.DueDate,
+                    CustomerId = invoice.CustomerId,
+                    Items = invoice.Items.Select(item => new ItemDetailDto
                     {
-                        invoice.Customer.Id,
-                        invoice.Customer.Name,
-                        invoice.Customer.Email
+                        Id = item.Id,
+                        Name = item.Name,
+                        Description = item.Description,
+                        Quantity = item.Quantity,
+                        UnitPrice = item.UnitPrice
+                    }).ToList(),
+                    Customer = new CustomerDetailsDto
+                    {
+                        Id = invoice.Customer.Id,
+                        Name = invoice.Customer.Name,
+                        Address = invoice.Customer.Address,
+                        City = invoice.Customer.City,
+                        Email = invoice.Customer.Email,
+                        Phone = invoice.Customer.Phone,
+                        Discount = invoice.Customer.Discount
                     }
-                }
-                )
+                })
                 .FirstOrDefaultAsync(cancellationToken);
 
             return result;

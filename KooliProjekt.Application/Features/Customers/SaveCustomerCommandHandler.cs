@@ -2,6 +2,7 @@
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,12 +17,26 @@ namespace KooliProjekt.Application.Features.Customers
 
         public SaveCustomerCommandHandler(ApplicationDbContext dbContext)
         {
+            if (dbContext == null)
+            {
+                throw new ArgumentNullException(nameof(dbContext));
+            }
+
             _dbContext = dbContext;
         }
 
         public async Task<OperationResult> Handle(SaveCustomerCommand request, CancellationToken cancellationToken)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             var result = new OperationResult();
+            if (request.Id < 0)
+            {
+                return result.AddPropertyError(nameof(request.Id), "Id cannot be negative.");
+            }
 
             var customer = new Customer();
 
@@ -32,6 +47,10 @@ namespace KooliProjekt.Application.Features.Customers
             else
             {
                 customer = await _dbContext.Customers.FindAsync(request.Id);
+                if (customer == null)
+                {
+                    return result.AddPropertyError(nameof(request.Id), "ToDoList with the specified Id does not exist.");
+                }
             }
 
             customer.Name = request.Name;

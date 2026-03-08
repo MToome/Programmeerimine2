@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using KooliProjekt.Application.Data;
 using System;
 using System.Collections.Generic;
@@ -12,22 +12,18 @@ namespace KooliProjekt.Application.Features.Items
     {
         public SaveItemCommandValidator(ApplicationDbContext context)
         {
-            RuleFor(i => i.Name)
-                .NotEmpty().WithMessage("Item name is required.")
-                .MaximumLength(100).WithMessage("Item name cannot exceed 100 characters.");
-            RuleFor(i => i.UnitPrice)
-                .GreaterThan(0).WithMessage("Item price must be greater than zero.");
-            RuleFor(i => i.Quantity)
-                .GreaterThan(0).WithMessage("Item quantity must be greater than zero.");
-            RuleFor(i => i.Description)
-                .MaximumLength(500).WithMessage("Item description cannot exceed 500 characters.");
-            RuleFor(i => i.InvoiceId)
-                .MustAsync(async (invoiceId, cancellation) =>
-                {
-                    var invoice = await context.Invoices.FindAsync(new object[] { invoiceId }, cancellation);
-                    return invoice != null;
-                })
-                .WithMessage("Associated invoice must exist in the database.");
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required.")
+                .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
+            RuleFor(x => x.Id)
+                .GreaterThan(0).WithMessage("Id must be higher than 0")
+                .NotNull().WithMessage("Id can not be null");
+            RuleFor(x => x.Description)
+                .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");
+            RuleFor(x => x.Quantity)
+                .GreaterThan(0).WithMessage("Quantity must be greater than 0.");
+            RuleFor(x => x.UnitPrice)
+                .GreaterThan(0).WithMessage("Unit price must be greater than 0.");
         }
     }
 }

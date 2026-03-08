@@ -12,36 +12,20 @@ namespace KooliProjekt.Application.Features.Customers
     {
         public SaveCustomerCommandValidator(ApplicationDbContext context)
         {
-            RuleFor(c => c.Name)
-                .NotEmpty().WithMessage("Customer name is required.")
-                .MaximumLength(100).WithMessage("Customer name must not exceed 100 characters.")
-                // Oma loogikaga valideerimise reegel
-                // Siin võib kasutada DbContexti klassi
-                .Custom((s, context) =>
-                 {
-                     // Command või query, mida valideerime
-                     var command = context.InstanceToValidate;
-
-                     // Oma valideerimise loogika
-                     // koos vea lisamisega
-                     //var failure = new ValidationFailure();
-                     //failure.AttemptedValue = command.ProjectId;
-                     //failure.ErrorMessage = "Cannot find project with id " + command.ProjectId;
-                     //failure.PropertyName = nameof(command.ProjectId);
-
-                     //context.AddFailure(failure);
-                 });
-            RuleFor(c => c.Email)
+            RuleFor(x => x.Name)
+                .NotEmpty().WithMessage("Name is required.")
+                .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
+            RuleFor(x => x.Id)
+                .GreaterThan(0).WithMessage("Id must be higher than 0")
+                .NotNull().WithMessage("Id can not be null");
+            RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email is required.")
-                .EmailAddress().WithMessage("A valid email is required.");
-            RuleFor(c => c.Phone)
-                .NotEmpty().WithMessage("Phone number is required.")
-                .MaximumLength(15).WithMessage("Phone number must not exceed 15 characters.");
-            RuleFor(c => c.Address)
-                .NotEmpty().WithMessage("Address is required.");
-            RuleFor(c => c.City)
-                .NotEmpty().WithMessage("City is required.");
-            
+                .EmailAddress().WithMessage("Invalid email format.")
+                .MaximumLength(100).WithMessage("Email cannot exceed 100 characters.");
+            RuleFor(x => x.Address)
+                .MaximumLength(200).WithMessage("Address cannot exceed 200 characters.");
+            RuleFor(x => x.Phone)
+                .MaximumLength(20).WithMessage("Phone number cannot exceed 20 characters.");
         }
     }
 }
