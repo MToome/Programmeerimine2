@@ -12,5 +12,8 @@ namespace KooliProjekt.Application.Features.Invoices
     {
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public int CustomerId { get; set; }
+
+        public string Customer { get; set; }
     }
 }

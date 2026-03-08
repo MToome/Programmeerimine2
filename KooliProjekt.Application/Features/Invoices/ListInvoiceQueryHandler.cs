@@ -36,7 +36,19 @@ namespace KooliProjekt.Application.Features.Invoices
                 return result;
             }
 
-            
+            var query = _dbContext.Invoices.AsQueryable();
+
+            if (!int.IsNegative(request.CustomerId))
+            {
+                query = query.Where(invoice => invoice.CustomerId.Equals(request.CustomerId));
+            }
+
+            if (!string.IsNullOrEmpty(request.Customer))
+            {
+                query = query.Where(invoice => invoice.Customer.Equals(request.Customer));
+            }
+
+
             result.Value = await _dbContext
                 .Invoices
                 .OrderBy(list => list.DueDate)

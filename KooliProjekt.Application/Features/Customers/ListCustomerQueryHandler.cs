@@ -44,10 +44,24 @@ namespace KooliProjekt.Application.Features.Customers
             {
                 query = query.Where(customer => customer.Name.Contains(request.Name));
             }
+            
+            if (!string.IsNullOrEmpty(request.Email))
+            {
+                query = query.Where(customer => customer.Email.Contains(request.Email));
+            }
 
-            result.Value = await _dbContext
-                .Customers
-                .OrderBy(list => list.Name)
+            if (!string.IsNullOrEmpty(request.Phone))
+            {
+                query = query.Where(customer => customer.Phone.Contains(request.Phone));
+            }
+            
+            if (!string.IsNullOrEmpty(request.Address))
+            {
+                query = query.Where(customer => customer.Address.Contains(request.Address));
+            }
+
+            result.Value = await query
+                .OrderBy(customer => customer.Name)
                 .GetPagedAsync(request.Page, request.PageSize);
 
             return result;

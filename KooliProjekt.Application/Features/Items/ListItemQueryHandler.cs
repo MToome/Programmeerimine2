@@ -46,8 +46,7 @@ namespace KooliProjekt.Application.Features.Items
                 query = query.Where(item => item.Name.Contains(request.Name));
             }
 
-            result.Value = await _dbContext
-                .Items
+            result.Value = await query
                 .OrderBy(item => item.Name)
                 .GetPagedAsync(request.Page, request.PageSize);
 
