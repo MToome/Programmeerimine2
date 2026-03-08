@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+using FluentValidation;
 using KooliProjekt.Application.Data;
 using System;
 using System.Collections.Generic;
