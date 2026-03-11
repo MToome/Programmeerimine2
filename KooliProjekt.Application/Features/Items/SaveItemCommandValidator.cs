@@ -16,7 +16,7 @@ namespace KooliProjekt.Application.Features.Items
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(100).WithMessage("Name cannot exceed 100 characters.");
             RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("Id must be higher than 0")
+                .GreaterThanOrEqualTo(0).WithMessage("Id must be higher than 0")
                 .NotNull().WithMessage("Id can not be null");
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description cannot exceed 500 characters.");

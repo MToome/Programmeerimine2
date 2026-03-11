@@ -2,10 +2,6 @@
 using KooliProjekt.Application.Infrastructure.Results;
 using MediatR;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,7 +45,7 @@ namespace KooliProjekt.Application.Features.Customers
                 customer = await _dbContext.Customers.FindAsync(request.Id);
                 if (customer == null)
                 {
-                    return result.AddPropertyError(nameof(request.Id), "ToDoList with the specified Id does not exist.");
+                    return result.AddPropertyError(nameof(request.Id), "Customer with the specified Id does not exist.");
                 }
             }
 
@@ -60,7 +56,7 @@ namespace KooliProjekt.Application.Features.Customers
             customer.Phone = request.Phone;
             customer.Discount = request.Discount;
         
-            await _dbContext.SaveChangesAsync(cancellationToken);
+            await _dbContext.SaveChangesAsync();
             return result;
         }
     }
