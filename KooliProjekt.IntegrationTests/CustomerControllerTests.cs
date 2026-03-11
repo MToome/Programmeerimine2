@@ -35,7 +35,7 @@ namespace KooliProjekt.IntegrationTests
         }
 
         [Fact]
-        public async Task Get_should_return_existing_item()
+        public async Task Get_should_return_existing_customer()
         {
             // Arrange
             var url = "api/customer/get?id=1"; // Adjust the URL as needed
