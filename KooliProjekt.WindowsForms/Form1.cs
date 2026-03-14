@@ -29,5 +29,40 @@ namespace KooliProjekt.WindowsForms
 
             dataGridView1.DataSource = response.Value.Results;
         }
+
+        private void NameBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AddressBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CityBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PhoneBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void EmailBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DiscountBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SubmitBtn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
